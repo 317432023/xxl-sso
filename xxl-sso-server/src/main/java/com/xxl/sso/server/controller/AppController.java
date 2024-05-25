@@ -41,7 +41,7 @@ public class AppController {
         // valid login
         ReturnT<UserInfo> result = userService.findUser(username, password);
         if (result.getCode() != ReturnT.SUCCESS_CODE) {
-            return new ReturnT<String>(result.getCode(), result.getMsg());
+            return new ReturnT<>(result.getCode(), result.getMsg());
         }
 
         // 1、make xxl-sso user
@@ -60,7 +60,7 @@ public class AppController {
         SsoTokenLoginHelper.login(sessionId, xxlUser);
 
         // 4、return sessionId
-        return new ReturnT<String>(sessionId);
+        return new ReturnT<>(sessionId);
     }
 
 
@@ -91,9 +91,9 @@ public class AppController {
         // logout
         XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(sessionId);
         if (xxlUser == null) {
-            return new ReturnT<XxlSsoUser>(ReturnT.FAIL_CODE, "sso not login.");
+            return new ReturnT<>(ReturnT.FAIL_CODE, "sso not login.");
         }
-        return new ReturnT<XxlSsoUser>(xxlUser);
+        return new ReturnT<>(xxlUser);
     }
 
 }

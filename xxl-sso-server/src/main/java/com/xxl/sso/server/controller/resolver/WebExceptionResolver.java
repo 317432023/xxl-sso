@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 @Component
 public class WebExceptionResolver implements HandlerExceptionResolver {
-    private static transient Logger logger = LoggerFactory.getLogger(WebExceptionResolver.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebExceptionResolver.class);
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request,
@@ -46,9 +46,9 @@ public class WebExceptionResolver implements HandlerExceptionResolver {
         // error result
         ReturnT<String> errorResult = null;
         if (ex instanceof XxlSsoException) {
-            errorResult = new ReturnT<String>(ReturnT.FAIL_CODE, ex.getMessage());
+            errorResult = new ReturnT<>(ReturnT.FAIL_CODE, ex.getMessage());
         } else {
-            errorResult = new ReturnT<String>(ReturnT.FAIL_CODE, ex.toString().replaceAll("\n", "<br/>"));
+            errorResult = new ReturnT<>(ReturnT.FAIL_CODE, ex.toString().replaceAll("\n", "<br/>"));
         }
 
         // response

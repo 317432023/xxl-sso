@@ -25,21 +25,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public ReturnT<UserInfo> findUser(String username, String password) {
 
-        if (username==null || username.trim().length()==0) {
-            return new ReturnT<UserInfo>(ReturnT.FAIL_CODE, "Please input username.");
+        if (username==null || username.trim().isEmpty()) {
+            return new ReturnT<>(ReturnT.FAIL_CODE, "Please input username.");
         }
-        if (password==null || password.trim().length()==0) {
-            return new ReturnT<UserInfo>(ReturnT.FAIL_CODE, "Please input password.");
+        if (password==null || password.trim().isEmpty()) {
+            return new ReturnT<>(ReturnT.FAIL_CODE, "Please input password.");
         }
 
         // mock user
         for (UserInfo mockUser: mockUserList) {
             if (mockUser.getUsername().equals(username) && mockUser.getPassword().equals(password)) {
-                return new ReturnT<UserInfo>(mockUser);
+                return new ReturnT<>(mockUser);
             }
         }
 
-        return new ReturnT<UserInfo>(ReturnT.FAIL_CODE, "username or password is invalid.");
+        return new ReturnT<>(ReturnT.FAIL_CODE, "username or password is invalid.");
     }
 
 

@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.xuxueli</groupId>
         <artifactId>xxl-sso</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>1.1.1-SNAPSHOT-indredis</version>
     </parent>
     <artifactId>xxl-sso-server</artifactId>
     <packaging>jar</packaging>
@@ -47,6 +47,13 @@
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-sso-core</artifactId>
             <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

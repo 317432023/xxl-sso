@@ -2,7 +2,7 @@ package com.xxl.sso.sample.config;
 
 import com.xxl.sso.core.conf.Conf;
 import com.xxl.sso.core.filter.XxlSsoTokenFilter;
-import com.xxl.sso.core.util.JedisUtil;
+//import com.xxl.sso.core.util.JedisUtil;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -15,25 +15,36 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class XxlSsoConfig implements DisposableBean {
 
-
+    /**
+     * 单点中心服务地址
+     */
     @Value("${xxl.sso.server}")
     private String xxlSsoServer;
 
+    /**
+     * 单点中心退出API路径
+     */
     @Value("${xxl.sso.logout.path}")
     private String xxlSsoLogoutPath;
 
-    @Value("${xxl.sso.redis.address}")
-    private String xxlSsoRedisAddress;
-
+    /**
+     * 单点中心忽略拦截请求路径
+     */
     @Value("${xxl-sso.excluded.paths}")
     private String xxlSsoExcludedPaths;
+
+    /**
+     * 单点中心会话高速缓存地址（redis地址）
+     */
+    //@Value("${xxl.sso.redis.address}")
+    //private String xxlSsoRedisAddress;
 
 
     @Bean
     public FilterRegistrationBean xxlSsoFilterRegistration() {
 
         // xxl-sso, redis init
-        JedisUtil.init(xxlSsoRedisAddress);
+        //JedisUtil.init(xxlSsoRedisAddress);
 
         // xxl-sso, filter init
         FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -53,7 +64,7 @@ public class XxlSsoConfig implements DisposableBean {
     public void destroy() throws Exception {
 
         // xxl-sso, redis close
-        JedisUtil.close();
+        //JedisUtil.close();
     }
 
 }

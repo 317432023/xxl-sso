@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.xuxueli</groupId>
     <artifactId>xxl-sso</artifactId>
-    <version>1.1.1-SNAPSHOT</version>
+    <version>1.1.1-SNAPSHOT-indredis</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -31,7 +31,7 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jedis.version>3.2.0</jedis.version>
 
-        <spring-boot.version>2.6.6</spring-boot.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
 
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.3.2</maven-javadoc-plugin.version>

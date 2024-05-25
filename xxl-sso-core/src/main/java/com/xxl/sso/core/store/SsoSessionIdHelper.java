@@ -36,11 +36,11 @@ public class SsoSessionIdHelper {
      * @return
      */
     public static String parseStoreKey(String sessionId) {
-        if (sessionId!=null && sessionId.indexOf("_")>-1) {
+        if (sessionId!=null && sessionId.contains("_")) {
             String[] sessionIdArr = sessionId.split("_");
             if (sessionIdArr.length==2
                     && sessionIdArr[0]!=null
-                    && sessionIdArr[0].trim().length()>0) {
+                    && !sessionIdArr[0].trim().isEmpty()) {
                 String userId = sessionIdArr[0].trim();
                 return userId;
             }
@@ -55,11 +55,11 @@ public class SsoSessionIdHelper {
      * @return
      */
     public static String parseVersion(String sessionId) {
-        if (sessionId!=null && sessionId.indexOf("_")>-1) {
+        if (sessionId!=null && sessionId.contains("_")) {
             String[] sessionIdArr = sessionId.split("_");
             if (sessionIdArr.length==2
                     && sessionIdArr[1]!=null
-                    && sessionIdArr[1].trim().length()>0) {
+                    && !sessionIdArr[1].trim().isEmpty()) {
                 String version = sessionIdArr[1].trim();
                 return version;
             }

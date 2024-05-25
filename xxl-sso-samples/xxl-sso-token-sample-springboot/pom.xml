@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.xuxueli</groupId>
         <artifactId>xxl-sso-samples</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>1.1.1-SNAPSHOT-indredis</version>
     </parent>
     <artifactId>xxl-sso-token-sample-springboot</artifactId>
     <packaging>jar</packaging>
@@ -44,11 +44,10 @@
             <version>${parent.version}</version>
         </dependency>
 
-        <!-- httpclient -->
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.12</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
 

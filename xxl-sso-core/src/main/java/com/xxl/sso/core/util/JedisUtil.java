@@ -20,16 +20,17 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author xuxueli 2015-7-10 18:34:07
  */
 public class JedisUtil {
-    private static Logger logger = LoggerFactory.getLogger(JedisUtil.class);
+    private static final Logger logger = LoggerFactory.getLogger(JedisUtil.class);
 
     /**
      * redis address, like "{ip}"、"{ip}:{port}"、"{redis/rediss}://xxl-sso:{password}@{ip}:{port:6379}/{db}"；Multiple "," separated
      */
     private static String address;
+    private static String password;
 
-    public static void init(String address) {
+    public static void init(String address, String password) {
         JedisUtil.address = address;
-
+        JedisUtil.password = password;
         getInstance();
     }
 
@@ -75,13 +76,15 @@ public class JedisUtil {
                             config.setNumTestsPerEvictionRun(10);               // 表示idle object evitor每次扫描的最多的对象数
                             config.setMinEvictableIdleTimeMillis(60000);        // 表示一个对象至少停留在idle状态的最短时间，然后才能被idle object evitor扫描并驱逐；这一项只有在timeBetweenEvictionRunsMillis大于0时才有意义
 
-
                             // JedisShardInfo List
-                            List<JedisShardInfo> jedisShardInfos = new LinkedList<JedisShardInfo>();
+                            List<JedisShardInfo> jedisShardInfos = new LinkedList<>();
 
                             String[] addressArr = address.split(",");
-                            for (int i = 0; i < addressArr.length; i++) {
-                                JedisShardInfo jedisShardInfo = new JedisShardInfo(addressArr[i]);
+                            for (String s : addressArr) {
+                                JedisShardInfo jedisShardInfo = new JedisShardInfo(s);
+                                if (password != null && !password.isEmpty()) {
+                                    jedisShardInfo.setPassword(password);
+                                }
                                 jedisShardInfos.add(jedisShardInfo);
                             }
                             shardedJedisPool = new ShardedJedisPool(config, jedisShardInfos);
@@ -135,8 +138,12 @@ public class JedisUtil {
             logger.error(e.getMessage(), e);
         } finally {
             try {
-                oos.close();
-                baos.close();
+                if (oos != null) {
+                    oos.close();
+                }
+                if (baos != null) {
+                    baos.close();
+                }
             } catch (IOException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -380,8 +387,8 @@ public class JedisUtil {
 
     public static void main(String[] args) {
         String xxlSsoRedisAddress = "redis://xxl-sso:password@127.0.0.1:6379/0";
-        xxlSsoRedisAddress = "redis://127.0.0.1:6379/0";
-        init(xxlSsoRedisAddress);
+        xxlSsoRedisAddress = "redis://127.0.0.1:6379/1";
+        init(xxlSsoRedisAddress, null);
 
         setObjectValue("key", "666", 2*60*60);
         System.out.println(getObjectValue("key"));

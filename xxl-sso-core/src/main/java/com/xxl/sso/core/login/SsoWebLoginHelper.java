@@ -95,6 +95,40 @@ public class SsoWebLoginHelper {
 
 
     /**
+     * login check
+     *
+     * @param request
+     * @param response
+     * @param ssoServer
+     * @return
+     */
+    public static XxlSsoUser loginCheck(HttpServletRequest request, HttpServletResponse response, String ssoServer){
+
+        String cookieSessionId = CookieUtil.getValue(request, Conf.SSO_SESSIONID);
+
+        // cookie user
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(cookieSessionId, ssoServer);
+        if (xxlUser != null) {
+            return xxlUser;
+        }
+
+        // redirect user
+
+        // remove old cookie
+        SsoWebLoginHelper.removeSessionIdByCookie(request, response);
+
+        // set new cookie
+        String paramSessionId = request.getParameter(Conf.SSO_SESSIONID);
+        xxlUser = SsoTokenLoginHelper.loginCheck(paramSessionId, ssoServer);
+        if (xxlUser != null) {
+            CookieUtil.set(response, Conf.SSO_SESSIONID, paramSessionId, false);    // expire when browser close （client cookie）
+            return xxlUser;
+        }
+
+        return null;
+    }
+
+    /**
      * client logout, cookie only
      *
      * @param request

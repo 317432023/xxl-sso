@@ -46,7 +46,7 @@ public class XxlSsoWebFilter extends HttpServlet implements Filter {
         String servletPath = req.getServletPath();
 
         // excluded path check
-        if (excludedPaths!=null && excludedPaths.trim().length()>0) {
+        if (excludedPaths!=null && !excludedPaths.trim().isEmpty()) {
             for (String excludedPath:excludedPaths.split(",")) {
                 String uriPattern = excludedPath.trim();
 
@@ -62,7 +62,7 @@ public class XxlSsoWebFilter extends HttpServlet implements Filter {
 
         // logout path check
         if (logoutPath!=null
-                && logoutPath.trim().length()>0
+                && !logoutPath.trim().isEmpty()
                 && logoutPath.equals(servletPath)) {
 
             // remove cookie
@@ -76,7 +76,7 @@ public class XxlSsoWebFilter extends HttpServlet implements Filter {
         }
 
         // valid login user, cookie + redirect
-        XxlSsoUser xxlUser = SsoWebLoginHelper.loginCheck(req, res);
+        XxlSsoUser xxlUser = SsoWebLoginHelper.loginCheck(req, res, ssoServer);
 
         // valid login fail
         if (xxlUser == null) {
@@ -110,7 +110,6 @@ public class XxlSsoWebFilter extends HttpServlet implements Filter {
 
         // already login, allow
         chain.doFilter(request, response);
-        return;
     }
 
 }

@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author xuxueli 2018-04-08 21:30:54
  */
 public class XxlSsoTokenFilter extends HttpServlet implements Filter {
-    private static Logger logger = LoggerFactory.getLogger(XxlSsoTokenFilter.class);
+    private static final Logger logger = LoggerFactory.getLogger(XxlSsoTokenFilter.class);
 
     private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
@@ -47,7 +47,7 @@ public class XxlSsoTokenFilter extends HttpServlet implements Filter {
         String servletPath = req.getServletPath();
 
         // excluded path check
-        if (excludedPaths!=null && excludedPaths.trim().length()>0) {
+        if (excludedPaths!=null && !excludedPaths.trim().isEmpty()) {
             for (String excludedPath:excludedPaths.split(",")) {
                 String uriPattern = excludedPath.trim();
 
@@ -63,7 +63,7 @@ public class XxlSsoTokenFilter extends HttpServlet implements Filter {
 
         // logout filter
         if (logoutPath!=null
-                && logoutPath.trim().length()>0
+                && !logoutPath.trim().isEmpty()
                 && logoutPath.equals(servletPath)) {
 
             // logout
@@ -78,7 +78,7 @@ public class XxlSsoTokenFilter extends HttpServlet implements Filter {
         }
 
         // login filter
-        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(req);
+        XxlSsoUser xxlUser = SsoTokenLoginHelper.loginCheck(req, ssoServer);
         if (xxlUser == null) {
 
             // response
@@ -91,10 +91,8 @@ public class XxlSsoTokenFilter extends HttpServlet implements Filter {
         // ser sso user
         request.setAttribute(Conf.SSO_USER, xxlUser);
 
-
         // already login, allow
         chain.doFilter(request, response);
-        return;
     }
 
 

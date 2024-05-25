@@ -60,8 +60,8 @@ public class SsoLoginStore {
         JedisUtil.setObjectValue(redisKey, xxlUser, redisExpireMinute * 60);  // minute to second
     }
 
-    private static String redisKey(String sessionId){
-        return Conf.SSO_SESSIONID.concat("#").concat(sessionId);
+    private static String redisKey(String storeKey){
+        return Conf.SSO_SESSIONID.concat("#").concat(storeKey);
     }
 
 }

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @param <T>
  */
 public class ReturnT<T> implements Serializable {
-	public static final long serialVersionUID = 42L;
+	private static final long serialVersionUID = 42L;
 
 	public static final int SUCCESS_CODE = 200;
 	public static final int FAIL_CODE = 500;

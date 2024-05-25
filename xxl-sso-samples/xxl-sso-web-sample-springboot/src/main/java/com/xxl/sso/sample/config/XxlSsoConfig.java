@@ -2,7 +2,7 @@ package com.xxl.sso.sample.config;
 
 import com.xxl.sso.core.conf.Conf;
 import com.xxl.sso.core.filter.XxlSsoWebFilter;
-import com.xxl.sso.core.util.JedisUtil;
+//import com.xxl.sso.core.util.JedisUtil;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -25,15 +25,15 @@ public class XxlSsoConfig implements DisposableBean {
     @Value("${xxl-sso.excluded.paths}")
     private String xxlSsoExcludedPaths;
 
-    @Value("${xxl.sso.redis.address}")
-    private String xxlSsoRedisAddress;
+    //@Value("${xxl.sso.redis.address}")
+    //private String xxlSsoRedisAddress;
 
 
     @Bean
     public FilterRegistrationBean xxlSsoFilterRegistration() {
 
         // xxl-sso, redis init
-        JedisUtil.init(xxlSsoRedisAddress);
+        //JedisUtil.init(xxlSsoRedisAddress);
 
         // xxl-sso, filter init
         FilterRegistrationBean registration = new FilterRegistrationBean();
@@ -53,7 +53,7 @@ public class XxlSsoConfig implements DisposableBean {
     public void destroy() throws Exception {
 
         // xxl-sso, redis close
-        JedisUtil.close();
+        //JedisUtil.close();
     }
 
 }

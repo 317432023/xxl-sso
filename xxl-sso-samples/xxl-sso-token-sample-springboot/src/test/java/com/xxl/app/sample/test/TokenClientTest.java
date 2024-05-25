@@ -1,8 +1,8 @@
 package com.xxl.app.sample.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xxl.app.sample.test.util.HttpClientUtil;
 import com.xxl.sso.core.conf.Conf;
+import com.xxl.sso.core.util.HttpClientUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -152,10 +152,10 @@ public class TokenClientTest {
 	 * @return
 	 */
 	private String logincheckTest(String sessionId) throws IOException {
-		// logout url
+		// logincheck url
 		String logincheckUrl = ssoServer + "/app/logincheck";
 
-		// logout param
+		// logincheck param
 		Map<String, String> logincheckParam = new HashMap<>();
 		logincheckParam.put("sessionId", sessionId);
 

@@ -60,7 +60,7 @@ public class WebController {
 
             // success redirect
             String redirectUrl = request.getParameter(Conf.REDIRECT_URL);
-            if (redirectUrl!=null && redirectUrl.trim().length()>0) {
+            if (redirectUrl!=null && !redirectUrl.trim().isEmpty()) {
 
                 String sessionId = SsoWebLoginHelper.getSessionIdByCookie(request);
                 String redirectUrlFinal = redirectUrl + "?" + Conf.SSO_SESSIONID + "=" + sessionId;;
@@ -93,7 +93,7 @@ public class WebController {
                         String password,
                         String ifRemember) {
 
-        boolean ifRem = (ifRemember!=null&&"on".equals(ifRemember))?true:false;
+        boolean ifRem = "on".equals(ifRemember);
 
         // valid login
         ReturnT<UserInfo> result = userService.findUser(username, password);
@@ -121,7 +121,7 @@ public class WebController {
 
         // 4、return, redirect sessionId
         String redirectUrl = request.getParameter(Conf.REDIRECT_URL);
-        if (redirectUrl!=null && redirectUrl.trim().length()>0) {
+        if (redirectUrl!=null && !redirectUrl.trim().isEmpty()) {
             String redirectUrlFinal = redirectUrl + "?" + Conf.SSO_SESSIONID + "=" + sessionId;
             return "redirect:" + redirectUrlFinal;
         } else {
