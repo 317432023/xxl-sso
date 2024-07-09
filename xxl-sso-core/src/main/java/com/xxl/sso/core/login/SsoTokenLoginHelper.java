@@ -114,6 +114,9 @@ public class SsoTokenLoginHelper {
      * @return
      */
     public static XxlSsoUser loginCheck(String sessionId, String ssoServer) {
+        if (sessionId == null || sessionId.trim().isEmpty()) {
+            return null;
+        }
         // return loginCheck(headerSessionId);
         // 20240511 修改为 远程调用 ssoserver 的 logincheck 接口
         // logincheck url
