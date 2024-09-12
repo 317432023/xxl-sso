@@ -2,6 +2,8 @@ package com.xxl.sso.core.store;
 
 import com.xxl.sso.core.user.XxlSsoUser;
 
+import java.util.Map;
+
 /**
  * make client sessionId
  *
@@ -13,6 +15,9 @@ import com.xxl.sso.core.user.XxlSsoUser;
  * //   group         The same group shares the login status, Different groups will not interact
  *
  * @author xuxueli 2018-11-15 15:45:08
+ * @since 2024-09-12 modified
+ * <p>
+ *     多终端同时登录支持
  */
 
 public class SsoSessionIdHelper {
@@ -22,11 +27,26 @@ public class SsoSessionIdHelper {
      * make client sessionId
      *
      * @param xxlSsoUser
-     * @return
+     * @return 返回格式：userid@terminal_version
      */
     public static String makeSessionId(XxlSsoUser xxlSsoUser){
-        String sessionId = xxlSsoUser.getUserid().concat("_").concat(xxlSsoUser.getVersion());
-        return sessionId;
+        StringBuilder sessBuf = new StringBuilder();
+        sessBuf.append(xxlSsoUser.getUserid());
+
+        String terminal;
+        Map<String, String> plugininfo = xxlSsoUser.getPlugininfo();
+        if (plugininfo != null && plugininfo.containsKey("terminal") && "1".equals(plugininfo.get("terminal"))) {
+            terminal = "1";
+        } else {
+            terminal = "0";
+        }
+
+        sessBuf.append("@").append(terminal);
+
+        sessBuf.append("_");
+        sessBuf.append(xxlSsoUser.getVersion());
+
+        return sessBuf.toString();
     }
 
     /**
@@ -41,8 +61,7 @@ public class SsoSessionIdHelper {
             if (sessionIdArr.length==2
                     && sessionIdArr[0]!=null
                     && !sessionIdArr[0].trim().isEmpty()) {
-                String userId = sessionIdArr[0].trim();
-                return userId;
+                return sessionIdArr[0].trim();
             }
         }
         return null;
@@ -60,8 +79,7 @@ public class SsoSessionIdHelper {
             if (sessionIdArr.length==2
                     && sessionIdArr[1]!=null
                     && !sessionIdArr[1].trim().isEmpty()) {
-                String version = sessionIdArr[1].trim();
-                return version;
+                return sessionIdArr[1].trim();
             }
         }
         return null;
