@@ -46,21 +46,6 @@ public class XxlSsoTokenFilter extends HttpServlet implements Filter {
         // make url
         String servletPath = req.getServletPath();
 
-        // excluded path check
-        if (excludedPaths!=null && !excludedPaths.trim().isEmpty()) {
-            for (String excludedPath:excludedPaths.split(",")) {
-                String uriPattern = excludedPath.trim();
-
-                // 支持ANT表达式
-                if (antPathMatcher.match(uriPattern, servletPath)) {
-                    // excluded path, allow
-                    chain.doFilter(request, response);
-                    return;
-                }
-
-            }
-        }
-
         // logout filter
         if (logoutPath!=null
                 && !logoutPath.trim().isEmpty()
@@ -75,6 +60,21 @@ public class XxlSsoTokenFilter extends HttpServlet implements Filter {
             res.getWriter().println("{\"code\":"+ReturnT.SUCCESS_CODE+", \"msg\":\"\"}");
 
             return;
+        }
+
+        // excluded path check
+        if (excludedPaths!=null && !excludedPaths.trim().isEmpty()) {
+            for (String excludedPath:excludedPaths.split(",")) {
+                String uriPattern = excludedPath.trim();
+
+                // 支持ANT表达式
+                if (antPathMatcher.match(uriPattern, servletPath)) {
+                    // excluded path, allow
+                    chain.doFilter(request, response);
+                    return;
+                }
+
+            }
         }
 
         // login filter
@@ -94,6 +94,5 @@ public class XxlSsoTokenFilter extends HttpServlet implements Filter {
         // already login, allow
         chain.doFilter(request, response);
     }
-
 
 }

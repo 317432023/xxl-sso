@@ -41,7 +41,7 @@ public class SsoSessionIdHelper {
             terminal = "0";
         }
 
-        sessBuf.append("@").append(terminal);
+        sessBuf.append(":").append(terminal);
 
         sessBuf.append("_");
         sessBuf.append(xxlSsoUser.getVersion());
